@@ -2,6 +2,11 @@
     export let card;
     card.isEnlarged = false;
 
+    import abi from "../utils/MyERC1155Token.json";
+    const contractAddress = "0x5476b872C869B36eEE71b1D14F57C395b870429F";
+    const contractABI = abi.abi;
+
+
     import Buy from "./Buy.svelte";
     import Mint from "./Mint.svelte";
 

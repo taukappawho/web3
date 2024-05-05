@@ -1,20 +1,49 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+    import { ethers } from "ethers";
+    import { createEventDispatcher } from "svelte";
+
+    import abi from "../utils/MyERC1155Token.json";
+    const contractAddress = "0x5476b872C869B36eEE71b1D14F57C395b870429F";
+    const contractABI = abi.abi;
+
 
     const dispatch = createEventDispatcher();
 
-    let ftQuant= 0;
-    let nftQuant = 0;
+    let ftQuant = 0;
+    // let nftQuant = 0;
 
-    function handleSubmit() {
+    async function handleSubmit() {
         const formData = {
-            ftQuant, nftQuant
+            ftQuant, //, nftQuant
         };
-        dispatch('submit', formData);
+
+        try {
+            const { ethereum } = window;
+
+            if (ethereum) {
+                const provider = new ethers.BrowserProvider(ethereum);
+                const signer = await provider.getSigner();
+                const myContract = new ethers.Contract(
+                    contractAddress,
+                    contractABI,
+                    signer,
+                );
+
+                let result = await myContract.buyToken(2 ,ftQuant);
+                console.log(result);
+            } else {
+                console.log("ETH window obj doesn't exist...");
+            }
+        } catch (error) {
+            alert("error: " + error);
+            console.log(error);
+        }
+
+        // dispatch("submit", formData);
     }
 
     function handleCancel() {
-        dispatch('cancel');
+        dispatch("cancel");
     }
 </script>
 
@@ -22,11 +51,21 @@
     <div class="modal-content">
         <h2>Buy Token</h2>
         <form on:submit|preventDefault={handleSubmit}>
-            <label for="ftQuant"> FT Quant:
-            <input type="number" id="ftQuant" min="0" max="1000" size="4" bind:value={ftQuant} required></label>
+            <label for="ftQuant">
+                FT Quant:
+                <input
+                    type="number"
+                    id="ftQuant"
+                    min="0"
+                    max="1000"
+                    size="4"
+                    bind:value={ftQuant}
+                    required
+                /></label
+            >
 
-            <label for="nftQuant">NFT Quant:
-            <input type="number" id="nftQuant" min="0" max="1000" size="4" bind:value={nftQuant} required></label>
+            <!-- <label for="nftQuant">NFT Quant:
+            <input type="number" id="nftQuant" min="0" max="1000" size="4" bind:value={nftQuant} required></label> -->
 
             <div class="buttons">
                 <button type="button" on:click={handleCancel}>Cancel</button>

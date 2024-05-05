@@ -1,6 +1,11 @@
 <script>
     import { onMount } from "svelte";
     import Card from "./components/Card.svelte";
+    import abi from "./utils/MyERC1155Token.json";
+
+    const contractAddress = "0x5476b872C869B36eEE71b1D14F57C395b870429F";
+    const contractABI = abi.abi;
+
     let cards = [];
     let newCard = {
         imgUrl: "0",
@@ -12,18 +17,62 @@
         royalty: "??",
         purpose: "mint",
     };
+    var currentAccount = 0;
 
-    function checkIfWalletConnected(){
-        const { ethereum } = window;
-        if (!ethereum) {
-            console.log("You don't have a wallet!");
-        } else {
-            console.log("You have a wallet");
+    const checkIfWalletIsConnected = async () => {
+        try {
+            const { ethereum } = window;
+            if (!ethereum) {
+                console.log("You don't have a wallet!");
+                return;
+            } else {
+                console.log("ETH detected");
+            }
+
+            // Pulls array of accounts
+            const accounts = await ethereum.request({ method: "eth_accounts" });
+
+            if (accounts.length !== 0) {
+                const account = accounts[0];
+                console.log("Found an authorized account:", account);
+                currentAccount = account;
+            } else {
+                console.log("No authorized account found");
+            }
+        } catch (error) {
+            console.log("EROR" + error);
         }
     };
+
+    // Allows to connect an auth'd wallet
+    const connectWallet = async () => {
+        try {
+            const { ethereum } = window;
+            if (!ethereum) {
+                alert("Need an ETH wallet to connect to!");
+                return;
+            }
+
+            // Makes request to connect to ETH account (Metamask wallet)
+            const accounts = await ethereum.request({
+                method: "eth_requestAccounts",
+            });
+
+            console.log("Connected", accounts[0]);
+
+            // Set the currAccount state within this component to know the address of the account
+            currentAccount = accounts[0];
+            document.getElementById("walletButton").innerHTML = "";
+        } catch (error) {
+            console.log("ERROR1:   " + error);
+            alert("Wallet could not be connected");
+        }
+    };
+
     // Fetch data from the backend when the component mounts
     onMount(async () => {
-        checkIfWalletConnected();
+        console.log("onMount");
+        checkIfWalletIsConnected();
         try {
             const response = await fetch("http://localhost:5000/cards");
             if (!response.ok) {
@@ -34,7 +83,7 @@
             // });
             cards = [...cards, newCard];
         } catch (error) {
-            console.error("Error fetching cards:", error);
+            console.log("Error fetching cards:", error);
         }
     });
 </script>
@@ -45,6 +94,9 @@
         {#each cards as card}
             <Card {card} />
         {/each}
+    </div>
+    <div id="walletButton">
+        <button on:click={connectWallet}>Connect Wallet</button>
     </div>
 </div>
 
