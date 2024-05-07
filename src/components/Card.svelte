@@ -3,7 +3,7 @@
     card.isEnlarged = false;
 
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x0E10Ce2eA8e0e6B61B8615a052D868C4990DcCFa";
+    const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
     const contractABI = abi.abi;
 
 
@@ -33,19 +33,17 @@
     }
 
     function toggleEnlarged() {
-        console.log(`Card Clicked: ${card.imgUrl}`);
+        console.log(`Card Clicked: ${card.imgURL}`);
         if (isBuyOpen || isMintOpen) return;
         card.isEnlarged = !card.isEnlarged;
         if (card.isEnlarged) {
             if (typeof card.purpose === "undefined") {
-                //we goot a wannabe buyer
+                //we got a wannabe buyer
                 //get contract details from blockchain using contract address
-                //
-                console.log("buying");
+
             } else {
                 // we got a wannabe maker
                 //display a form
-                console.log("making");
             }
         }
     }
@@ -55,16 +53,17 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="card" class:enlarged={card.isEnlarged} on:click={toggleEnlarged}>
     <div class="image-container">
-        <img src="/{card.imgUrl}.jpg" alt={card.tokenName} />
+        <!-- TODO here is the double http -->
+        <img src="{card.imgURL}" alt={card.name} />
     </div>
     <div class="content">
-        <h2 class="token-name">{card.tokenName}</h2>
+        <h2 class="token-name">{card.name}</h2>
         <div class="info">
-            <p class="desc">{card.description}</p>
+            <p class="desc">{card.desc}</p>
             <!-- <p class="owner">{card.ownerName}</p> -->
-            <p class="royalty">{card.royalty}%</p>
+            <!-- <p class="royalty">{card.royalty}%</p>
             <p class="cost">{card.cost} ETH</p>
-            <p class="mints">{card.mintLeft} / {card.mintTotal}</p>
+            <p class="mints">{card.mintLeft} / {card.mintTotal}</p> -->
         </div>
         {#if card.isEnlarged}
             {#if card.purpose === "mint"}

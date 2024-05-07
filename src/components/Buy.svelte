@@ -3,11 +3,11 @@
     import { createEventDispatcher } from "svelte";
 
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x0E10Ce2eA8e0e6B61B8615a052D868C4990DcCFa";
+    const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
     const contractABI = abi.abi;
 
 
-    const dispatch = createEventDispatcher();
+    // const dispatch = createEventDispatcher();
 
     let ftQuant = 0;
     // let nftQuant = 0;
@@ -29,7 +29,7 @@
                     signer,
                 );
 
-                let result = await myContract.buyToken(2 ,ftQuant);
+                let result = await myContract.buyToken(ethers.BigNumber.formData(1) ,ethers.BigNumber.formData(1));
                 console.log(result);
             } else {
                 console.log("ETH window obj doesn't exist...");

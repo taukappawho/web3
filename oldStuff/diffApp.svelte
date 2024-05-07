@@ -4,23 +4,22 @@
     import abi from "./utils/MyERC1155Token.json";
     import { ethers } from "ethers";
 
-    const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
+    const contractAddress = "0xFC4c754e07264431827d99bDe6eD7AC6B4b0E598";
     const contractABI = abi.abi;
 
     let cards = [];
     let newCard = {
-        imgURL: "https://white-fascinating-cardinal-894.mypinata.cloud/ipfs/QmSe33oFXwXSU5t3GUrM2GEk5jz64verJTNqYBo7iuUhMf",
-        name: "ART",
-        desc: "The Minting Pic",
-        // ownerName: "Arthur",
-        // mintLeft: "???",
-        // mintTotal: "???",
-        // cost: "?",
-        // royalty: "??",
+        imgUrl: "0",
+        tokenName: "ART",
+        ownerName: "Arthur",
+        mintLeft: "???",
+        mintTotal: "???",
+        cost: "?",
+        royalty: "??",
         purpose: "mint",
     };
     var currentAccount = 0;
-    var result;
+
     const checkIfWalletIsConnected = async () => {
         try {
             const { ethereum } = window;
@@ -65,37 +64,10 @@
             // Set the currAccount state within this component to know the address of the account
             currentAccount = accounts[0];
             document.getElementById("walletButton").innerHTML = "";
-            const provider = new ethers.BrowserProvider(ethereum);
-            const signer = await provider.getSigner();
-            const myContract = new ethers.Contract(
-                contractAddress,
-                contractABI,
-                signer,
-            );
-            try {
-                let result = await myContract.getMetadata(0);
-                console.log('before\n',result,'\nafter');
-                console.log(typeof result)
-                let newResult = JSON.parse(result)
-                console.log(typeof newResult)
-                // const response = await fetch("http://localhost:5000/cards");
-                // if (!response.ok) {
-                //     throw new Error("Failed to fetch: " + response.statusText);
-                // }
-                // cards = await result.json();
-                // cards = cards.map(card => {return {...card, isEnlarged: false};
-                // });
-
-                cards = [newResult, newCard];
-                console.log("cards: " + typeof cards)
-                console.log("***************\n", cards)
-            } catch (error) {
-                console.log("Error fetching cards:", error);
-            }
-
             // getAllMetadata
             // retrieve file from ipfs
             // load cards with metadata and imgURL
+            // let data - await ethers.
         } catch (error) {
             console.log("ERROR1:   " + error);
             alert("Wallet could not be connected");
@@ -106,20 +78,31 @@
     onMount(async () => {
         console.log("onMount");
         checkIfWalletIsConnected();
-        // try {
-        //     result = await myContract.getAllMetadata();
-        //     console.log(result);
-        //     // const response = await fetch("http://localhost:5000/cards");
-        //     // if (!response.ok) {
-        //     //     throw new Error("Failed to fetch: " + response.statusText);
-        //     // }
-        //     cards = await result.json();
-        //     // cards = cards.map(card => {return {...card, isEnlarged: false};
-        //     // });
-        //     cards = [...cards, newCard];
-        // } catch (error) {
-        //     console.log("Error fetching cards:", error);
-        // }
+        try {
+        if (ethereum) {
+            const provider = new ethers.BrowserProvider(ethereum);
+            const signer = await provider.getSigner();
+            const myContract = new ethers.Contract(
+                contractAddress,
+                contractABI,
+                signer,
+            );
+            let result = await myContract.getAllMetadata();
+            cards = await response.json();
+            cards = [...cards, newCard];
+        }
+
+            // const response = await fetch("http://localhost:5000/cards");
+            // if (!response.ok) {
+            //     throw new Error("Failed to fetch: " + response.statusText);
+            // }
+            // cards = await response.json();
+            // cards = cards.map(card => {return {...card, isEnlarged: false};
+            // });
+            // cards = [...cards, newCard];
+        } catch (error) {
+            console.log("Error fetching cards:", error);
+        }
     });
 </script>
 

@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte";
     import { ethers } from "ethers";
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x0E10Ce2eA8e0e6B61B8615a052D868C4990DcCFa";
+    const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
     const contractABI = abi.abi;
 
     const dispatch = createEventDispatcher();
@@ -38,10 +38,9 @@
 
                 //   function mint(uint256 _tokenId, uint256 _amount, uint256 _price, string memory _metadata)
                 let result = await myContract.mint(
-                    2,
                     ftQuant,
                     price,
-                    `{"name": "${tokenName}","description": "${description}", "imgURL": "${picURL}"}`,
+                    `{"name": "${tokenName}","desc":${description}", "imgURL": "${picURL}"}`,
                 );
                 console.log(result);
                 //todo
