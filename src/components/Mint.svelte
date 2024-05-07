@@ -40,7 +40,7 @@
                 let result = await myContract.mint(
                     ftQuant,
                     price,
-                    `{"name": "${tokenName}","desc":${description}", "imgURL": "${picURL}"}`,
+                    `{"name": "${tokenName}","desc":"${description}", "imgURL": "${picURL}"}`,
                 );
                 console.log(result);
                 //todo
