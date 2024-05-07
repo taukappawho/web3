@@ -3,7 +3,7 @@
     import { createEventDispatcher } from "svelte";
 
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x5476b872C869B36eEE71b1D14F57C395b870429F";
+    const contractAddress = "0x0E10Ce2eA8e0e6B61B8615a052D868C4990DcCFa";
     const contractABI = abi.abi;
 
 

@@ -3,7 +3,7 @@
     card.isEnlarged = false;
 
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x5476b872C869B36eEE71b1D14F57C395b870429F";
+    const contractAddress = "0x0E10Ce2eA8e0e6B61B8615a052D868C4990DcCFa";
     const contractABI = abi.abi;
 
 
@@ -60,7 +60,8 @@
     <div class="content">
         <h2 class="token-name">{card.tokenName}</h2>
         <div class="info">
-            <p class="owner">{card.ownerName}</p>
+            <p class="desc">{card.description}</p>
+            <!-- <p class="owner">{card.ownerName}</p> -->
             <p class="royalty">{card.royalty}%</p>
             <p class="cost">{card.cost} ETH</p>
             <p class="mints">{card.mintLeft} / {card.mintTotal}</p>
@@ -150,8 +151,8 @@
         z-index: 2;
     }
 
-    .owner,
-    .royalty,
+    .desc,
+    /* .royalty, */
     .cost,
     .mints {
         margin: 4px 8px;

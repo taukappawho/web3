@@ -1,13 +1,13 @@
 <script>
     import { createEventDispatcher } from "svelte";
-import { ethers } from "ethers";
+    import { ethers } from "ethers";
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x5476b872C869B36eEE71b1D14F57C395b870429F";
+    const contractAddress = "0x0E10Ce2eA8e0e6B61B8615a052D868C4990DcCFa";
     const contractABI = abi.abi;
 
     const dispatch = createEventDispatcher();
 
-    let ownerName = "";
+    let description = "";
     let tokenName = "";
     // let royalty = "";
     let price = "";
@@ -17,12 +17,10 @@ import { ethers } from "ethers";
 
     async function handleSubmit() {
         const formData = {
-            ownerName,
-            tokenName,
-            // royalty,
             price,
             ftQuant,
-            // nftQuant,
+            tokenName,
+            description,
             picURL,
         };
         //
@@ -38,8 +36,20 @@ import { ethers } from "ethers";
                     signer,
                 );
 
-                let result = await myContract.mint(2, ftQuant, price);
+                //   function mint(uint256 _tokenId, uint256 _amount, uint256 _price, string memory _metadata)
+                let result = await myContract.mint(
+                    2,
+                    ftQuant,
+                    price,
+                    `{"name": "${tokenName}","description": "${description}", "imgURL": "${picURL}"}`,
+                );
                 console.log(result);
+                //todo
+                //   mint needs uri field (can be "")
+                // onsuccess
+                //   save metadata siomewhere
+                //   get returned uri
+                //    post image file to uri
             } else {
                 console.log("ETH window obj doesn't exist...");
             }
@@ -60,20 +70,29 @@ import { ethers } from "ethers";
     <div class="modal-content">
         <h2>Mint Token</h2>
         <form on:submit|preventDefault={handleSubmit}>
-            <label for="ownerName"
+            <!-- <label for="ownerName"
                 >Owner's Name:
                 <input
                     type="text"
                     id="ownerName"
                     bind:value={ownerName}
                 /></label
-            >
+            > -->
             <label for="tokenName"
                 >Token Name:
                 <input
                     type="text"
                     id="tokenName"
                     bind:value={tokenName}
+                    required
+                /></label
+            >
+            <label for="description"
+                >Token Description
+                <input
+                    type="text"
+                    id="description"
+                    bind:value={description}
                     required
                 /></label
             >
@@ -104,9 +123,9 @@ import { ethers } from "ethers";
             <!-- <label for="nftQuant">NFT Quant:
             <input type="number" id="nftQuant" min="0" max="1000" bind:value={nftQuant} required /></label> -->
             <label for="picURL"
-                >Picture:
+                >Picture URL:
                 <input
-                    type="file"
+                    type="text"
                     id="picURL"
                     accept="image/jpeg, image/png"
                     bind:value={picURL}
