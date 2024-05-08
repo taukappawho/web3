@@ -73,11 +73,11 @@
                 signer,
             );
             try {
-                let result = await myContract.getMetadata(0);
-                console.log('before\n',result,'\nafter');
-                console.log(typeof result)
-                let newResult = JSON.parse(result)
-                console.log(typeof newResult)
+                let result = await myContract.getMetadata(1);
+                console.log("before\n", result, "\nafter");
+                console.log(typeof result);
+                let newResult = JSON.parse(result);
+                console.log(typeof newResult);
                 // const response = await fetch("http://localhost:5000/cards");
                 // if (!response.ok) {
                 //     throw new Error("Failed to fetch: " + response.statusText);
@@ -85,10 +85,14 @@
                 // cards = await result.json();
                 // cards = cards.map(card => {return {...card, isEnlarged: false};
                 // });
+                let index = 0;
+                // let addProp = newResult.array.forEach(
+                //     (element) => (element["_tokenId"] = index++),
+                // );
 
                 cards = [newResult, newCard];
-                console.log("cards: " + typeof cards)
-                console.log("***************\n", cards)
+                console.log("cards: " + typeof cards);
+                console.log("***************\n", cards);
             } catch (error) {
                 console.log("Error fetching cards:", error);
             }

@@ -6,15 +6,16 @@
     const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
     const contractABI = abi.abi;
 
+    const dispatch = createEventDispatcher();
 
-    // const dispatch = createEventDispatcher();
-
-    let ftQuant = 0;
+    let _amount = 0;
+    let _tokenId = 0;
     // let nftQuant = 0;
 
     async function handleSubmit() {
         const formData = {
-            ftQuant, //, nftQuant
+            _tokenId,
+            _amount //, nftQuant
         };
 
         try {
@@ -29,17 +30,18 @@
                     signer,
                 );
 
-                let result = await myContract.buyToken(ethers.BigNumber.formData(1) ,ethers.BigNumber.formData(1));
-                console.log(result);
+                let result = await myContract.buyToken(0, 0);
+                console.log(`Transaction response: ${JSON.stringify(result, null, 2)}`);
+                await result.wait();
+                console.log("Tokens purchased");
             } else {
                 console.log("ETH window obj doesn't exist...");
             }
         } catch (error) {
-            alert("error: " + error);
-            console.log(error);
+            console.error(`Error purchasing tokens: ${error}`);
         }
 
-        // dispatch("submit", formData);
+        dispatch("submit", formData);
     }
 
     function handleCancel() {
@@ -51,22 +53,22 @@
     <div class="modal-content">
         <h2>Buy Token</h2>
         <form on:submit|preventDefault={handleSubmit}>
-            <label for="ftQuant">
+            <label for="_amount">
                 FT Quant:
                 <input
                     type="number"
-                    id="ftQuant"
+                    id="_amount"
                     min="0"
                     max="1000"
                     size="4"
-                    bind:value={ftQuant}
+                    bind:value={_amount}
                     required
                 /></label
             >
 
             <!-- <label for="nftQuant">NFT Quant:
             <input type="number" id="nftQuant" min="0" max="1000" size="4" bind:value={nftQuant} required></label> -->
-
+<label for="imgURL">File: <input type="image" id="imgURL" bind:value={imgURL} required />  </label>
             <div class="buttons">
                 <button type="button" on:click={handleCancel}>Cancel</button>
                 <button type="submit">Submit</button>
