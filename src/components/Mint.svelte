@@ -57,7 +57,7 @@
             console.log(error);
         }
         //
-        // dispatch("submit", formData);
+        dispatch("submit", formData);
     }
 
     function handleCancel() {

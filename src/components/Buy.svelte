@@ -9,7 +9,7 @@
     const dispatch = createEventDispatcher();
 
     let _amount = 0;
-    let _tokenId = 0;
+    let _tokenId = 1;
     // let nftQuant = 0;
 
     async function handleSubmit() {
@@ -29,8 +29,9 @@
                     contractABI,
                     signer,
                 );
-
-                let result = await myContract.buyToken(0, 0);
+console.log(`tokenid: ${_tokenId}, _amount: ${_amount}`)
+                // let result = await myContract.buyToken(_tokenId, _amount);
+                let result = await myContract.buyToken(_tokenId, _amount);
                 console.log(`Transaction response: ${JSON.stringify(result, null, 2)}`);
                 await result.wait();
                 console.log("Tokens purchased");
@@ -68,7 +69,7 @@
 
             <!-- <label for="nftQuant">NFT Quant:
             <input type="number" id="nftQuant" min="0" max="1000" size="4" bind:value={nftQuant} required></label> -->
-<label for="imgURL">File: <input type="image" id="imgURL" bind:value={imgURL} required />  </label>
+<!-- <label for="imgURL">File: <input type="image" id="imgURL" bind:value={imgURL} required />  </label> -->
             <div class="buttons">
                 <button type="button" on:click={handleCancel}>Cancel</button>
                 <button type="submit">Submit</button>
