@@ -3,9 +3,8 @@
     import Card from "./components/Card.svelte";
     import abi from "./utils/MyERC1155Token.json";
     import { ethers } from "ethers";
-    import Toast from './Toast.svelte';
+    import Toast from "./Toast.svelte";
     import { pinFileToIPFS } from "./api/pinata.js"; // Importing pinFileToIPFS function from its new location
-
 
     const contractAddress = "0xaD8C01F7E87F7E180716416570A2ECcC1d7AdB1B";
     const contractABI = abi.abi;
@@ -14,7 +13,7 @@
     let showUploadSection = false;
     let walletConnected = false;
     let showToast = false;
-    let toastMessage = '';
+    let toastMessage = "";
     let cards = [];
     let newCard = {
         imgURL: "https://white-fascinating-cardinal-894.mypinata.cloud/ipfs/QmSe33oFXwXSU5t3GUrM2GEk5jz64verJTNqYBo7iuUhMf",
@@ -55,54 +54,55 @@
     };
 
     function showToastNotification(message) {
-    toastMessage = message;
-    showToast = true;
-  }
+        toastMessage = message;
+        showToast = true;
+    }
 
-  function handleCloseToast() {
-    showToast = false;
-  }
+    function handleCloseToast() {
+        showToast = false;
+    }
 
     function handleImageUpload(event) {
-    const file = event.target.files[0];
-    // Optionally, you can display the file name or other information to the user
-    console.log("Selected file:", file.name);
-}
-
+        const file = event.target.files[0];
+        // Optionally, you can display the file name or other information to the user
+        console.log("Selected file:", file.name);
+    }
 
     function toggleUploadSection() {
         showUploadSection = !showUploadSection;
     }
 
     async function pinImageToIPFS() {
-    try {
-        // Retrieve the file input element by its id
-        const fileInput = document.getElementById('imageInput');
+        try {
+            // Retrieve the file input element by its id
+            const fileInput = document.getElementById("imageInput");
 
-        // Get the selected file from the files array of the file input element
-        const file = fileInput.files[0];
+            // Get the selected file from the files array of the file input element
+            const file = fileInput.files[0];
 
-        // If no file is selected, exit the function
-        if (!file) {
-            return;
+            // If no file is selected, exit the function
+            if (!file) {
+                return;
+            }
+
+            // Call pinFileToIPFS function with the selected file
+            const response = await pinFileToIPFS(file);
+
+            // Display alert after successful upload
+            showToastNotification(
+                "File uploaded successfully!\nHere is the url to your image:\n" +
+                    pinataUrl +
+                    JSON.stringify(response).replace(/['"]+/g, "") +
+                    "\nPlease keep this link, as it is what you will use to mint this image.",
+            );
+
+            // Clear the file input
+            fileInput.value = ""; // Reset file input to clear the selected file
+        } catch (error) {
+            console.error("Error uploading file:", error);
+            // Handle error if necessary
         }
-
-        // Call pinFileToIPFS function with the selected file
-        const response = await pinFileToIPFS(file);
-
-        // Display alert after successful upload
-        showToastNotification('File uploaded successfully!\nHere is the url to your image:\n' + pinataUrl + JSON.stringify(response).replace(/['"]+/g, '') + '\nPlease keep this link, as it is what you will use to mint this image.');
-
-        // Clear the file input
-        fileInput.value = ''; // Reset file input to clear the selected file
-    } catch (error) {
-        console.error('Error uploading file:', error);
-        // Handle error if necessary
     }
-}
-
-
-    
 
     // Allows to connect an auth'd wallet
     const connectWallet = async () => {
@@ -140,18 +140,21 @@
                 // let newResult = JSON.parse(result);
                 // console.log(typeof newResult);
                 let cardList = [];
+                let tcards;
                 if (result != "") {
                     let list = result.slice(1, -1); //get rid of { and }
                     list = list.split("},{"); //
-                    for (i = 0; i < list.length(); i++) {
+                    for (let i = 0; i < list.length; i++) {
                         let items = list[i].split("|");
-                        tcards.id = items[0];
-                        tcards.cost = items[1];
-                        tcards.mintTotal = items[2];
-                        tcards.mintSold = items[3];
-                        tcards.name = items[4];
-                        tcards.desc = items[5];
-                        tcards.imgURL = items[6];
+                        let tcards = {
+                            id: items[0],
+                            cost: items[1],
+                            mintTotal: items[2],
+                            mintSold: items[3],
+                            name: items[4],
+                            desc: items[5],
+                            imgURL: items[6],
+                        };
                         cardList.push(tcards);
                     }
                     cards = [...cardList, newCard];
@@ -198,7 +201,11 @@
 
 <div>
     {#if showToast}
-  <Toast message={toastMessage} className="show" onClose={handleCloseToast}/>
+        <Toast
+            message={toastMessage}
+            className="show"
+            onClose={handleCloseToast}
+        />
     {/if}
     <h1>Kryptocist Artwerks</h1>
     <div class="cards">
@@ -216,7 +223,13 @@
     {/if}
     {#if showUploadSection}
         <div class="upload-section">
-            <input id="imageInput" type="file" accept="image/*" onchange={handleImageUpload} style="background-color: white"/>
+            <input
+                id="imageInput"
+                type="file"
+                accept="image/*"
+                onchange={handleImageUpload}
+                style="background-color: white"
+            />
             <button on:click={pinImageToIPFS}>Upload</button>
         </div>
     {/if}

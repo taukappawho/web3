@@ -32,7 +32,9 @@
                 console.log(card.id);
 console.log(`tokenid: ${_tokenId}, _amount: ${_amount}`)
                 // let result = await myContract.buyToken(_tokenId, _amount);
-                let result = await myContract.buyToken(_tokenId, _amount);
+                let amt = card.cost * _amount;
+                let options = {value: amt};
+                let result = await myContract.buyToken(_tokenId, _amount,options).then((transaction) => {console.log(transaction)});
                 console.log(`Transaction response: ${JSON.stringify(result, null, 2)}`);
                 await result.wait();
                 console.log("Tokens purchased");
