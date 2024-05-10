@@ -61,7 +61,7 @@
             <!-- <p class="owner">{card.ownerName}</p> -->
             <p class="id">{card.id}</p>
             <p class="cost">{card.cost} ETH</p>
-            <p class="mints">{card.mintLeft} / {card.mintTotal}</p>
+            <p class="mints">{card.mintSold} / {card.mintTotal}</p>
         </div>
         {#if card.isEnlarged}
             {#if card.purpose === "mint"}
@@ -76,7 +76,7 @@
 
                 <button on:click={openBuy}>Buy</button>
                 {#if isBuyOpen}
-                    <Buy on:submit={handleFormSubmit} on:cancel={handleClose} />
+                    <Buy {card} on:submit={handleFormSubmit} on:cancel={handleClose} />
                 {/if}
 {/if}
         {/if}

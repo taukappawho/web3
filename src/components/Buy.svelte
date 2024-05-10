@@ -1,21 +1,19 @@
 <script>
     import { ethers } from "ethers";
     import { createEventDispatcher } from "svelte";
-
+    export let card;
+    console.log("card: " + JSON.stringify(card));
     import abi from "../utils/MyERC1155Token.json";
     const contractAddress = "0xaD8C01F7E87F7E180716416570A2ECcC1d7AdB1B";
     const contractABI = abi.abi;
 
     const dispatch = createEventDispatcher();
-
     let _amount = 0;
-    let _tokenId = 1;
-    // let nftQuant = 0;
-
+    let _tokenId = 0;
     async function handleSubmit() {
         const formData = {
             _tokenId,
-            _amount //, nftQuant
+            _amount, //, nftQuant
         };
 
         try {
@@ -29,15 +27,22 @@
                     contractABI,
                     signer,
                 );
-                console.log(card.id);
-console.log(`tokenid: ${_tokenId}, _amount: ${_amount}`)
-                // let result = await myContract.buyToken(_tokenId, _amount);
+                console.log(card.price);
+                console.log(`tokenid: ${_tokenId}, _amount: ${_amount}`);
+
                 let amt = card.cost * _amount;
-                let options = {value: amt};
-                let result = await myContract.buyToken(_tokenId, _amount,options).then((transaction) => {console.log(transaction)});
-                console.log(`Transaction response: ${JSON.stringify(result, null, 2)}`);
-                await result.wait();
+                console.log("cost: " + card.cost, "amt: " + amt);
+                let options = { value: amt };
+                await myContract
+                    .buyToken(_tokenId, _amount, options)
+                    .then((transaction) => {
+                        console.log(transaction);
+                    });
+
                 console.log("Tokens purchased");
+                let cardInfo = await myContract.getMetadata(_tokenId);
+                cardInfo = cardInfo.split("|");
+                card.mintSold = cardInfo[3];
             } else {
                 console.log("ETH window obj doesn't exist...");
             }
@@ -72,7 +77,7 @@ console.log(`tokenid: ${_tokenId}, _amount: ${_amount}`)
 
             <!-- <label for="nftQuant">NFT Quant:
             <input type="number" id="nftQuant" min="0" max="1000" size="4" bind:value={nftQuant} required></label> -->
-<!-- <label for="imgURL">File: <input type="image" id="imgURL" bind:value={imgURL} required />  </label> -->
+            <!-- <label for="imgURL">File: <input type="image" id="imgURL" bind:value={imgURL} required />  </label> -->
             <div class="buttons">
                 <button type="button" on:click={handleCancel}>Cancel</button>
                 <button type="submit">Submit</button>

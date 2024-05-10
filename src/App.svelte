@@ -14,13 +14,13 @@
     let walletConnected = false;
     let showToast = false;
     let toastMessage = "";
-    let cards = [];
+    export var cards = [];
     let newCard = {
         imgURL: "https://white-fascinating-cardinal-894.mypinata.cloud/ipfs/QmSe33oFXwXSU5t3GUrM2GEk5jz64verJTNqYBo7iuUhMf",
         name: "ART",
         desc: "The Minting Pic",
         // ownerName: "Arthur",
-        mintLeft: "?",
+        mintSold: "?",
         mintTotal: "1000",
         cost: "?",
         id: "#?",
@@ -182,20 +182,6 @@
     onMount(async () => {
         console.log("onMount");
         checkIfWalletIsConnected();
-        // try {
-        //     result = await myContract.getAllMetadata();
-        //     console.log(result);
-        //     // const response = await fetch("http://localhost:5000/cards");
-        //     // if (!response.ok) {
-        //     //     throw new Error("Failed to fetch: " + response.statusText);
-        //     // }
-        //     cards = await result.json();
-        //     // cards = cards.map(card => {return {...card, isEnlarged: false};
-        //     // });
-        //     cards = [...cards, newCard];
-        // } catch (error) {
-        //     console.log("Error fetching cards:", error);
-        // }
     });
 </script>
 
