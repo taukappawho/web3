@@ -3,7 +3,7 @@
     card.isEnlarged = false;
 
     import abi from "../utils/MyERC1155Token.json";
-    const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
+    const contractAddress = "0xaD8C01F7E87F7E180716416570A2ECcC1d7AdB1B";
     const contractABI = abi.abi;
 
     import Buy from "./Buy.svelte";
@@ -78,7 +78,7 @@
                 {#if isBuyOpen}
                     <Buy on:submit={handleFormSubmit} on:cancel={handleClose} />
                 {/if}
-
+{/if}
         {/if}
     </div>
 </div>

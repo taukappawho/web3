@@ -4,7 +4,7 @@
     import abi from "./utils/MyERC1155Token.json";
     import { ethers } from "ethers";
 
-    const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
+    const contractAddress = "0xaD8C01F7E87F7E180716416570A2ECcC1d7AdB1B";
     const contractABI = abi.abi;
 
     let cards = [];
@@ -73,25 +73,34 @@
                 signer,
             );
             try {
-                let result = await myContract.getMetadata(1);
-                // let result = await myContract.getMetadata(1);   ****
+                let result = await myContract.getAllMetadata();
                 console.log("before\n", result, "\nafter");
                 console.log(typeof result);
-                let newResult = JSON.parse(result);
-                console.log(typeof newResult);
-                // const response = await fetch("http://localhost:5000/cards");
-                // if (!response.ok) {
-                //     throw new Error("Failed to fetch: " + response.statusText);
-                // }
-                // cards = await result.json();
-                // cards = cards.map(card => {return {...card, isEnlarged: false};
-                // });
-                let index = 0;
-                // let addProp = newResult.array.forEach(
-                //     (element) => (element["_tokenId"] = index++),
-                // );
+                result = result.slice(1, -1);
+                console.log(result);
+                // let newResult = JSON.parse(result);
+                // console.log(typeof newResult);
+                let cardList = [];
+                if (result != "") {
+                    let list = result.slice(1, -1); //get rid of { and }
+                    list = list.split("},{"); //
+                    for (i = 0; i < list.length(); i++) {
+                        let items = list[i].split("|");
+                        tcards.id = items[0];
+                        tcards.cost = items[1];
+                        tcards.mintTotal = items[2];
+                        tcards.mintSold = items[3];
+                        tcards.name = items[4];
+                        tcards.desc = items[5];
+                        tcards.imgURL = items[6];
+                        cardList.push(tcards);
+                    }
+                    cards = [...cardList, newCard];
+                } else {
+                    cards = [newCard];
+                }
 
-                cards = [newResult, newCard];
+                // cards = [newResult, newCard];
                 console.log("cards: " + typeof cards);
                 console.log("***************\n", cards);
             } catch (error) {
