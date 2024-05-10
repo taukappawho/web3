@@ -199,8 +199,9 @@
             <Card {card} />
         {/each}
     </div>
-    <div id="walletButton">
-        <button on:click={connectWallet}>Connect Wallet</button>
+    <div class="wallet-btn-container" id="walletButton">
+        <p class="wallet-connect-prompt">Welcome! Please connect your wallet to start.</p>
+        <button class="wallet-btn" on:click={connectWallet}>Connect Your Wallet</button>
     </div>
     {#if walletConnected}
         <div class="upload-section">
@@ -228,4 +229,31 @@
         gap: 20px;
         padding: 8px;
     }
+
+    .wallet-btn-container {
+        margin: 10px;
+        margin-left: 35px;
+        margin-top: 0px;
+    }
+
+    .wallet-btn {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow:
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 15px;
+        margin-top: 5px;
+    }
+    .wallet-connect-prompt {
+        color: yellow;
+    }
+
+    .wallet-btn:hover {
+        transform: translateY(-5px);
+        box-shadow:
+            0 4px 8px rgba(0, 0, 0, 0.2),
+            0 12px 36px rgba(43, 38, 38, 0.28);
+    }
+
 </style>
