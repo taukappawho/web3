@@ -13,10 +13,10 @@
         name: "ART",
         desc: "The Minting Pic",
         // ownerName: "Arthur",
-        // mintLeft: "???",
-        // mintTotal: "???",
-        // cost: "?",
-        // royalty: "??",
+        mintLeft: "?",
+        mintTotal: "1000",
+        cost: "?",
+        id: "#?",
         purpose: "mint",
     };
     var currentAccount = 0;
@@ -74,6 +74,7 @@
             );
             try {
                 let result = await myContract.getMetadata(1);
+                // let result = await myContract.getMetadata(1);   ****
                 console.log("before\n", result, "\nafter");
                 console.log(typeof result);
                 let newResult = JSON.parse(result);

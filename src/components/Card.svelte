@@ -6,7 +6,6 @@
     const contractAddress = "0x518485F2f177Dc0115F366416125AFC1c56acAFF";
     const contractABI = abi.abi;
 
-
     import Buy from "./Buy.svelte";
     import Mint from "./Mint.svelte";
 
@@ -33,14 +32,13 @@
     }
 
     function toggleEnlarged() {
-        console.log(`Card Clicked: ${card.imgURL}`);
+        console.log(`Card Clicked: ${card.id}`);
         if (isBuyOpen || isMintOpen) return;
         card.isEnlarged = !card.isEnlarged;
         if (card.isEnlarged) {
             if (typeof card.purpose === "undefined") {
                 //we got a wannabe buyer
                 //get contract details from blockchain using contract address
-
             } else {
                 // we got a wannabe maker
                 //display a form
@@ -54,16 +52,16 @@
 <div class="card" class:enlarged={card.isEnlarged} on:click={toggleEnlarged}>
     <div class="image-container">
         <!-- TODO here is the double http -->
-        <img src="{card.imgURL}" alt={card.name} />
+        <img src={card.imgURL} alt={card.name} />
     </div>
     <div class="content">
         <h2 class="token-name">{card.name}</h2>
         <div class="info">
             <p class="desc">{card.desc}</p>
             <!-- <p class="owner">{card.ownerName}</p> -->
-            <!-- <p class="royalty">{card.royalty}%</p>
+            <p class="id">{card.id}</p>
             <p class="cost">{card.cost} ETH</p>
-            <p class="mints">{card.mintLeft} / {card.mintTotal}</p> -->
+            <p class="mints">{card.mintLeft} / {card.mintTotal}</p>
         </div>
         {#if card.isEnlarged}
             {#if card.purpose === "mint"}
@@ -75,11 +73,12 @@
                     />
                 {/if}
             {:else}
+
                 <button on:click={openBuy}>Buy</button>
                 {#if isBuyOpen}
                     <Buy on:submit={handleFormSubmit} on:cancel={handleClose} />
                 {/if}
-            {/if}
+
         {/if}
     </div>
 </div>
@@ -151,7 +150,7 @@
     }
 
     .desc,
-    /* .royalty, */
+    .id,
     .cost,
     .mints {
         margin: 4px 8px;

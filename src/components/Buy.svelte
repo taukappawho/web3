@@ -29,6 +29,7 @@
                     contractABI,
                     signer,
                 );
+                console.log(card.id);
 console.log(`tokenid: ${_tokenId}, _amount: ${_amount}`)
                 // let result = await myContract.buyToken(_tokenId, _amount);
                 let result = await myContract.buyToken(_tokenId, _amount);

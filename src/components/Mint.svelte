@@ -9,7 +9,7 @@
 
     let description = "";
     let tokenName = "";
-    // let royalty = "";
+    // let id = "";
     let price = "";
     let ftQuant = "";
     // let nftQuant = "";
