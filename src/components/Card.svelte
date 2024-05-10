@@ -78,7 +78,7 @@
                 {#if isBuyOpen}
                     <Buy {card} on:submit={handleFormSubmit} on:cancel={handleClose} />
                 {/if}
-{/if}
+            {/if}
         {/if}
     </div>
 </div>

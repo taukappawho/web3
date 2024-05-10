@@ -199,24 +199,26 @@
             <Card {card} />
         {/each}
     </div>
-    <div id="walletButton">
-        <button on:click={connectWallet}>Connect Wallet</button>
+    <div class="left-align-btn-container" id="walletButton">
+        <p class="wallet-connect-prompt">Welcome! Please connect your wallet to start.</p>
+        <button class="left-align-btn" on:click={connectWallet}>Connect Your Wallet</button>
     </div>
     {#if walletConnected}
-        <div class="upload-section">
-            <button on:click={toggleUploadSection}>Upload Image</button>
+        <div class="left-align-btn-container">
+            <button class="left-align-btn" on:click={toggleUploadSection}>Upload Image</button>
         </div>
     {/if}
     {#if showUploadSection}
-        <div class="upload-section">
+        <div class="left-align-btn-container">
             <input
+                class="left-align-input"
                 id="imageInput"
                 type="file"
                 accept="image/*"
                 onchange={handleImageUpload}
                 style="background-color: white"
             />
-            <button on:click={pinImageToIPFS}>Upload</button>
+            <button class="left-align-btn" on:click={pinImageToIPFS}>Upload</button>
         </div>
     {/if}
 </div>
@@ -227,5 +229,45 @@
         grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
         gap: 20px;
         padding: 8px;
+        margin-left: 18px;
     }
+
+    .left-align-btn-container {
+        margin: 10px;
+        margin-left: 35px;
+        margin-top: 0px;
+    }
+
+    .left-align-btn {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow:
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 15px;
+        margin-top: 5px;
+        transition: transform 0.3s ease-in-out;
+    }
+    .wallet-connect-prompt {
+        color: yellow;
+    }
+
+    .left-align-btn:hover {
+        transform: translateY(-5px);
+        box-shadow:
+            0 4px 8px rgba(0, 0, 0, 0.2),
+            0 12px 36px rgba(43, 38, 38, 0.28);
+    }
+
+    .left-align-input {
+        background: #fff;
+        border-radius: 8px;
+        height: 50px;
+        box-shadow:
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 13px;
+        font-weight: 700;
+    }
+
 </style>
