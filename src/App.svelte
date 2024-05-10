@@ -199,25 +199,26 @@
             <Card {card} />
         {/each}
     </div>
-    <div class="wallet-btn-container" id="walletButton">
+    <div class="left-align-btn-container" id="walletButton">
         <p class="wallet-connect-prompt">Welcome! Please connect your wallet to start.</p>
-        <button class="wallet-btn" on:click={connectWallet}>Connect Your Wallet</button>
+        <button class="left-align-btn" on:click={connectWallet}>Connect Your Wallet</button>
     </div>
     {#if walletConnected}
-        <div class="wallet-btn-container">
-            <button class="wallet-btn" on:click={toggleUploadSection}>Upload Image</button>
+        <div class="left-align-btn-container">
+            <button class="left-align-btn" on:click={toggleUploadSection}>Upload Image</button>
         </div>
     {/if}
     {#if showUploadSection}
-        <div class="wallet-btn-container">
+        <div class="left-align-btn-container">
             <input
+                class="left-align-input"
                 id="imageInput"
                 type="file"
                 accept="image/*"
                 onchange={handleImageUpload}
                 style="background-color: white"
             />
-            <button class="wallet-btn" on:click={pinImageToIPFS}>Upload</button>
+            <button class="left-align-btn" on:click={pinImageToIPFS}>Upload</button>
         </div>
     {/if}
 </div>
@@ -231,13 +232,13 @@
         margin-left: 18px;
     }
 
-    .wallet-btn-container {
+    .left-align-btn-container {
         margin: 10px;
         margin-left: 35px;
         margin-top: 0px;
     }
 
-    .wallet-btn {
+    .left-align-btn {
         background: #fff;
         border-radius: 8px;
         box-shadow:
@@ -251,11 +252,22 @@
         color: yellow;
     }
 
-    .wallet-btn:hover {
+    .left-align-btn:hover {
         transform: translateY(-5px);
         box-shadow:
             0 4px 8px rgba(0, 0, 0, 0.2),
             0 12px 36px rgba(43, 38, 38, 0.28);
+    }
+
+    .left-align-input {
+        background: #fff;
+        border-radius: 8px;
+        height: 50px;
+        box-shadow:
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 13px;
+        font-weight: 700;
     }
 
 </style>
