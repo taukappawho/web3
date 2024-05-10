@@ -204,12 +204,12 @@
         <button class="wallet-btn" on:click={connectWallet}>Connect Your Wallet</button>
     </div>
     {#if walletConnected}
-        <div class="upload-section">
-            <button on:click={toggleUploadSection}>Upload Image</button>
+        <div class="wallet-btn-container">
+            <button class="wallet-btn" on:click={toggleUploadSection}>Upload Image</button>
         </div>
     {/if}
     {#if showUploadSection}
-        <div class="upload-section">
+        <div class="wallet-btn-container">
             <input
                 id="imageInput"
                 type="file"
@@ -217,7 +217,7 @@
                 onchange={handleImageUpload}
                 style="background-color: white"
             />
-            <button on:click={pinImageToIPFS}>Upload</button>
+            <button class="wallet-btn" on:click={pinImageToIPFS}>Upload</button>
         </div>
     {/if}
 </div>
@@ -228,6 +228,7 @@
         grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
         gap: 20px;
         padding: 8px;
+        margin-left: 18px;
     }
 
     .wallet-btn-container {
@@ -244,6 +245,7 @@
             0 8px 24px rgba(0, 0, 0, 0.15);
         padding: 15px;
         margin-top: 5px;
+        transition: transform 0.3s ease-in-out;
     }
     .wallet-connect-prompt {
         color: yellow;
