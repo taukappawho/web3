@@ -143,7 +143,7 @@
                 let tcards;
                 if (result != "") {
                     let list = result.slice(1, -1); //get rid of { and }
-                    list = list.split("},{"); //
+                    list = list.split("}, {"); //
                     for (let i = 0; i < list.length; i++) {
                         let items = list[i].split("|");
                         let tcards = {
